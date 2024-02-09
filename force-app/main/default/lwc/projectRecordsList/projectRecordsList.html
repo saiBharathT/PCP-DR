@@ -1,0 +1,23 @@
+<template>
+    <div class=" slds-einstein-header slds-card__header" >
+    <lightning-card title="Related Projects" icon-name="standard:all" >
+        <div class="slds-p-around_medium">
+            <template if:true={ndata}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={filteredProjects}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+            <template if:false={ndata}>
+                <div class="slds-text-align_center slds-text-color_default">
+                    <lightning-icon icon-name="utility:announcement" size="small"></lightning-icon>
+                    <strong>  Oops! No projects were assigned.</strong>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</div>
+</template>

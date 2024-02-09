@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-einstein-header slds-card__header">
+    <lightning-card title="Task Activity" icon-name="utility:task" >
+        <div class="slds-m-around_large">
+        <div class="slds-m-around_medium">
+            <div class="slds-text-align_center">
+            <lightning-button-group>
+                <lightning-button label="Upcoming Tasks" icon-name="action:log_event" variant={isUpcomingSelected} onclick={showUpcomingTasks}></lightning-button>
+                <lightning-button label="OverDue Tasks" icon-name="utility:cancel_file_request" variant={isClosedSelected} onclick={showClosedTasks}></lightning-button>
+            </lightning-button-group>
+            </div>
+        </div>
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                label="Select Status"
+                value={selectedStatus}
+                options={statusOptions}
+                onchange={handleStatusChange}>
+            </lightning-combobox>
+        </div>
+        <template if:true={ndata}>
+            <div style="max-height: 200px; overflow-y: auto;" class="slds-wrap">
+                <template for:each={filteredTasks} for:item="task">
+                    <div key={task.Id} class="slds-m-around_medium slds-box slds-theme_shade slds-theme_alert-texture">
+                        <a href="javascript:void(0);" onclick={handleTaskClick} data-id={task.Id} class="slds-box slds-box_link slds-media">
+                            <div class="slds-media__figure slds-theme_shade">
+                                <lightning-icon icon-name="standard:task" size="small" alternative-text="Task Icon"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body slds-theme_shade">
+                                <p class="slds-truncate" title={task.Name}><strong>Task Name :- {task.Name}</strong></p>
+                                <p class="slds-truncate" title={task.Related_To__r.Name}>Project Name :- {task.Related_To__r.Name}</p>
+                                <p class="slds-truncate" title={task.Due_Date__c}>Due Date :- {task.Due_Date__c}</p>
+                            </div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:true={ndata}>
+            <template if:true={isUpcomingSelected}>
+                <template if:true={noUpcomingTasks}>
+                    <div class="slds-text-align_center slds-text-color_default">
+                        <lightning-icon icon-name="utility:announcement" size="small"></lightning-icon>
+                        <strong>No upcoming tasks.</strong>
+                    </div>
+                </template>
+            </template>
+            </template>
+            <template if:true={ndata}>
+                <template if:true={isClosedSelected}>
+                    <template if:true={noClosedTasks}>
+                        <div class="slds-text-align_center slds-text-color_default">
+                            <lightning-icon icon-name="utility:announcement" size="small"></lightning-icon>
+                            <strong>No OverDue tasks.</strong>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</div>
+</template>

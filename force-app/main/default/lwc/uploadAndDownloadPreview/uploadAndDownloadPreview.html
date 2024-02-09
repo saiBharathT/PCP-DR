@@ -1,0 +1,147 @@
+<template>
+    <lightning-card title="File Uploader" icon-name="standard:contract_line_item">
+        <div class="slds-m-around_medium">
+            <div class="slds-size_3-of-4">
+                <lightning-combobox
+                    name="fileType"
+                    label="File Type"
+                    value={fileType}
+                    options={fileTypeOptions}
+                    onchange={handleFileTypeChange}
+                ></lightning-combobox>
+            </div>
+
+            <div class="slds-form-element slds-m-top_small slds-grid slds-wrap">
+                <div class="slds-size_3-of-4">
+                    <div class="slds-form-element__control">
+                        <lightning-combobox
+                            name="folder"
+                            label="Workspace Folder"
+                            value={selectedFolder}
+                            options={folderOptions}
+                            onchange={handleFolderChange}
+                        ></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-size_1-of-4" style="padding:25px">
+                    <lightning-button-icon
+                        icon-name="utility:new"
+                        alternative-text="Add Library"
+                        title="Add Library"
+                        onclick={openLibraryModal}
+                        variant="bare"
+                        size="large"
+                    ></lightning-button-icon>
+                </div>
+                
+            </div>
+
+            <lightning-input
+                type="file"
+                accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                label="Attachment"
+                onchange={openfileUpload}
+            ></lightning-input>
+        </div>
+        <template if:true={fileData}>
+            <p>{fileData.filename}</p>
+        </template>
+        <lightning-button
+            variant="brand"
+            label="Submit"
+            title="Submit"
+            onclick={handleClick}
+            class="slds-m-right_small"
+            disabled={isButtonDisabled}
+            
+        ></lightning-button>
+        <!-- <template if:true={checkspinner}> 
+            <lightning-spinner size="large"></lightning-spinner>
+        </template> -->
+        
+
+        <!-- Modal for adding new library -->
+        <template if:true={showModal}>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium">Add New Library</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-input
+                            label="New Library Name"
+                            value={newLibraryName}
+                            onchange={handleNewLibraryNameChange}
+                        ></lightning-input>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand" onclick={createLibrary}>Create</button>
+                        <button class="slds-button slds-button_neutral" onclick={closeLibraryModal}>Cancel</button>
+                    </footer>
+                </div>
+            </section>
+        </template>
+        
+    </lightning-card>
+    <lightning-card title="File Explorer" icon-name="standard:contract_line_item">
+        <template if:true={showAllFiles}>
+            <template if:true={ndata}>
+                <div style="max-height: 200px; overflow-y: auto;" class="slds-wrap">
+                    <template for:each={filesList} for:item="file">
+                        <div key={file.value} class="slds-box">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_12-of-12">
+                                    <p><strong>FileName - </strong>{file.label}</p>
+                                </div>
+                                <div class="slds-col slds-large-size_4-of-12 slds-medium-size_4-of-12 slds-size_12-of-12 slds-col_bump-left">
+                                    <div class="slds-grid">
+                                        <!-- Download button -->
+                                        <div class="slds-col">
+                                            <a href={file.url} title="Download File">
+                                                <lightning-icon icon-name="action:download" size="small"></lightning-icon>
+                                            </a>
+                                        </div>
+                                        <!-- Preview button -->
+                                        <div class="slds-col">
+                                            <!-- <lightning-button  
+                                                data-id={file.value}
+                                                onclick={previewHandler}
+                                            > -->
+                                            
+                                            <lightning-icon data-id={file.value}  title="Preview File" onclick={previewHandler} icon-name="action:preview" size="small"></lightning-icon>
+                        
+                                            
+                                        <!-- </lightning-button> -->
+                                        </div>
+                                        <!-- Delete button -->
+                                        <div class="slds-col">
+                                            <!-- <lightning-button 
+                                                variant="destructive"
+                                                data-id={file.value}
+                                                onclick={deleteHandler}
+                                            ></lightning-button> -->
+                                            <lightning-icon data-id={file.value}  title="Delete File" onclick={deleteHandler} icon-name="action:delete" size="small"></lightning-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            
+        </template>
+        <template if:false={ndata}>
+            <div class="slds-text-align_center slds-text-color_default">
+                <p><strong>No Files were linked with this record.</strong></p>
+            </div>
+        </template>
+        <template if:true={checkspinner}> 
+            <lightning-spinner size="large"></lightning-spinner>
+        </template>
+    </lightning-card>
+    
+    
+</template>
