@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="File List" icon-name="standard:contract_line_item" >
+        <div class="slds-m-around_medium " style="width: 90%;">
+            <!-- Replace the search input with a combobox -->
+            <lightning-combobox
+                label="File Type"
+                value={selectedFileType}
+                options={fileTypeOptions}
+                onchange={handleFileTypeChange}>
+            </lightning-combobox>
+        </div>
+        <template if:true={checkspinner} style="height:200px;">
+            <lightning-spinner size="small"></lightning-spinner>
+        </template>
+        <template if:false={checkspinner}>
+            <div style={automaticSetHeight}>
+                <lightning-datatable
+                key-field="Id"
+                data={filteredFiles}
+                columns={columns}>
+                </lightning-datatable>
+            </div>
+        </template>
+    </lightning-card>
+    <lightning-card>
+        <div class="slds-text-align_center">
+             <lightning-button slot="actions" icon-name="utility:delete" variant="destructive" onclick={handleRowAction}></lightning-button>
+        </div>
+    </lightning-card>
+</template>
