@@ -1,0 +1,28 @@
+<template>
+     <lightning-card title={headerCount} icon-name="standard:team_member">
+        <template if:true={checkSpinner}>
+            <div style="height: 200px; position:relative">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+         </template>
+        <template if:false={checkSpinner}>
+            <div class="slds-scrollable" style={setHeightOftheDiv}>
+            <lightning-datatable
+                key-field="Id"
+                data={teamMemberList}
+                columns={columns}>
+            </lightning-datatable>
+          </div>
+          <template if:true={teamMemberListFlag}>
+            <div class="slds-m-around_medium slds-text-align_center">
+                <p style="color: red;">No Team Members are added yet, Please add !</p>
+            </div>
+          </template>
+        </template>
+     </lightning-card>
+     <lightning-card>
+        <div class="slds-text-align_center">
+            <lightning-button slot="actions" variant="destructive" icon-name="utility:delete" onclick={deleteRecord}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

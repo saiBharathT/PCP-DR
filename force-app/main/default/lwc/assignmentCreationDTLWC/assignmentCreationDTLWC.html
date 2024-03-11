@@ -1,0 +1,270 @@
+<template>
+    <div>
+        <div class="slds-card">
+            <div class="slds-card__header slds-grid slds-wrap">
+                <h2 class="slds-text-heading_medium slds-truncate">Assignment Manager</h2>
+            </div>
+            <div class="slds-card__body slds-m-around_medium">
+                <lightning-button label="Add Assignment" onclick={addAssignment} variant={buttonColor1}></lightning-button>
+                <lightning-button label="Save" onclick={handleSave} variant={buttonColor2}></lightning-button>
+            </div>
+            <div class="slds-card__body" style="max-width:1050px; max-height: 200px; overflow-x: auto;"> 
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Assignment Name</th>
+                            <th>Related To</th>
+                            <th>Assigned To</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Due Date</th>
+                            <th>Type</th>
+                            <th>Add subassignment</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={assignments} for:item="assignment" for:index="index">
+                            <tr key={assignment.Id}>
+                                <td>{assignment.Sno}</td>
+                                <td>
+                                    <lightning-input
+                                        type="text"
+                                        value={assignment.Name}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Name"
+                                    ></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-combobox
+                                        field-name="Related_To__c"
+                                        value={assignment.Related_To__c}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Related_To__c"
+                                        placeholder="Select an option"
+                                        options={Related_To__cOptions}
+                                    ></lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox
+                                        field-name="Assigned_To__c"
+                                        value={assignment.Assigned_To__c}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Assigned_To__c"
+                                        placeholder="Select an option"
+                                        options={Assigned_To__cOptions}
+                                    ></lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-input
+                                        type="text"
+                                        value={assignment.Subject__c}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Subject__c"
+                                    ></lightning-input>
+                                </td>
+                                <td>
+                                    <lightning-combobox
+                                        name="status"
+                                        label="Status"
+                                        value={assignment.Status__c}
+                                        options={statusOptions}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Status__c"
+                                    ></lightning-combobox>
+                                </td>
+                                <td>
+                                    <lightning-combobox
+                                        name="priority"
+                                        label="Priority"
+                                        value={assignment.Priority__c}
+                                        options={priorityOptions}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Priority__c"
+                                    ></lightning-combobox>
+                                </td>
+                                <td>
+                                    <div style="width:130px;">
+                                    <lightning-input 
+                                    label="Due Date"
+                                    type="date" 
+                                    value={assignment.Due_Date__c} 
+                                    data-id={assignment.Id} 
+                                    data-field="Due_Date__c" 
+                                    onchange={handleInputChange}>
+                                    </lightning-input>
+                                    </div>
+                                </td>
+                                <td>
+                                    <lightning-combobox
+                                        name="Assignment Type"
+                                        label="Type"
+                                        value={assignment.Assignment_Type__c}
+                                        options={AssignmenttypeOptions}
+                                        onchange={handleInputChange}
+                                        data-id={assignment.Id}
+                                        data-field="Assignment_Type__c"
+                                    ></lightning-combobox>
+                                </td>
+                        
+                                <td>
+                                    <div style="padding-top:25px;">
+                                    <lightning-button
+                                        icon-name="utility:add"
+                                        label="subassignment"
+                                        variant="brand"
+                                        onclick={addSubassignment}
+                                        data-id={assignment.Id}
+                                    ></lightning-button>
+                                   </div>
+                                </td>
+                                <td>
+                                  <div style="padding-top:25px;">
+                                    <lightning-button
+                                        icon-name="utility:delete"
+                                        label=""
+                                        variant="destructive"
+                                        onclick={handleDelete}
+                                        data-id={assignment.Id}
+                                        style="margin-top:50px;"
+                                    ></lightning-button>
+                                  </div>
+                                </td>
+                            </tr>
+
+                            
+                            <template if:true={assignment.showChildRows}>
+                                <template for:each={assignment.subassignments} for:item="subassignment" for:index="subIndex">
+                                    <tr key={subassignment.Id}>
+                                        <td>{subassignment.Sno}</td>
+                                        <td>
+                                            <lightning-input
+                                                type="text"
+                                                value={subassignment.Name}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Name"
+                                            ></lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                field-name="Related_To__c"
+                                                value={subassignment.Related_To__c}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Related_To__c"
+                                                placeholder="Select an option"
+                                                options={Related_To__cOptions}
+                                            ></lightning-combobox>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                field-name="Assigned_To__c"
+                                                value={assignment.Assigned_To__c}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Assigned_To__c"
+                                                placeholder="Select an option"
+                                                options={Assigned_To__cOptions}
+                                            ></lightning-combobox>
+                                        </td>
+                                        <td>
+                                            <lightning-input
+                                                type="text"
+                                                value={subassignment.Subject__c}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Subject__c"
+                                            ></lightning-input>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                name="status"
+                                                label="Status"
+                                                value={subassignment.Status__c}
+                                                options={statusOptions}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Status__c"
+                                            ></lightning-combobox>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                name="priority"
+                                                label="Priority"
+                                                value={subassignment.Priority__c}
+                                                options={priorityOptions}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Priority__c"
+                                            ></lightning-combobox>
+                                        </td>
+                                        <td><lightning-input 
+                                                label="Due Date" 
+                                                type="date"
+                                                value={subassignment.Due_Date__c} 
+                                                data-id={subassignment.Id} 
+                                                data-field="Due_Date__c" 
+                                                data-parent-id={assignment.Id}
+                                                onchange={handleInputChange}>
+                                        </lightning-input></td>
+                                        <td>
+                                            <lightning-combobox
+                                                name="Assignment Type"
+                                                label="Type"
+                                                value={subassignment.Assignment_Type__c}
+                                                options={AssignmenttypeOptions}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Assignment_Type__c"
+                                            ></lightning-combobox>
+                                        </td>
+                                        <td>
+                                            <lightning-combobox
+                                                name="Parent Assignment"
+                                                label="Parent Assignment"
+                                                value={subassignment.Parent_Assignment__c}
+                                                onchange={handleInputChange}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                                data-field="Parent_Assignment__c"
+                                                options={ParentOptions}
+                                            ></lightning-combobox>
+                                        </td>
+                                        <td>
+                                            <div style="padding-top:25px;">
+                                            <lightning-button
+                                                label=""
+                                                icon-name="utility:delete"
+                                                variant="destructive"
+                                                onclick={handleDeleteSubassignment}
+                                                data-id={subassignment.Id}
+                                                data-parent-id={assignment.Id}
+                                            ></lightning-button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </template>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>

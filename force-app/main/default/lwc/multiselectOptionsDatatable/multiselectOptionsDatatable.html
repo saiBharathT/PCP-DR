@@ -1,0 +1,91 @@
+<template>
+ <!-- <div class="slds-grid slds-wrap"> -->
+    <!-- <div class="slds-col slds-size_1-of-2"> -->
+       <lightning-card title="Select Your Team Members" icon-name="standard:agent_home"> 
+            <c-filter-component ongetdata={handleTheChildData}></c-filter-component>
+         <template if:true={checkSpinner}>
+            <div style="height: 200px; position:relative">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+         </template>
+        <template if:false={checkSpinner}>
+          <!-- <template if:true={accounts}> -->
+            <div class="slds-scrollable" style={datatableContainerStyle}>
+                <lightning-datatable
+                key-field="Id"
+                data={accounts}
+                columns={columns}
+                onrowaction={handleRowActionForSelection}
+                hide-checkbox-column
+                max-row-selection={maxRowSelection} 
+                onerror={handleEmptyDataTable}>
+               </lightning-datatable>
+            </div>
+           <!-- </template> -->
+           <template if:true={NoRecordFound}>
+            <div class="slds-m-around_medium slds-text-align_center">
+                <p style="color: red;">No records found !</p>
+            </div>
+          </template>
+        </template>
+         <template if:true={showNoRecordsMessage}>
+            <div class="slds-m-around_medium slds-text-align_center">
+                <p style="color: rgb(30, 81, 200);">Please, click on the APPLY FITER to get the records !</p>
+            </div>
+        </template>
+    </lightning-card>
+    <lightning-card title={headerCount} icon-name="standard:buyer_group_qualifier">
+        <!-- <div class="slds-box slds-theme_default"> -->
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col" style="width: 20%;">    
+                           Name
+                        </th>
+                        <th class="" scope="col" style="width: 20%;">
+                            Role
+                         </th>
+                         <th class="" scope="col" style="width: 20%;">
+                            Experience
+                         </th>
+                         <th class="" scope="col" style="width: 20%;">
+                            Action
+                         </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template iterator:it={showSelectedAccounts}>
+                        <tr class="slds-hint-parent" key = {it.value.Id}>
+                            <td data-label="Spec File" style="width: 20%;">
+                                <div class="slds-cell-wrap">{it.value.Name}</div>
+                            </td>
+                            <td data-label="Spec File" style="width: 20%;">
+                                <div class="slds-cell-wrap">{it.value.Role__c}</div>
+                            </td>
+                            <td data-label="Spec File" style="width: 20%;">
+                                <div class="slds-cell-wrap">{it.value.Experience__c}</div>
+                            </td>
+                            <td style="width: 20%;">
+                                <div class="slds-cell-wrap">
+                                    <lightning-button variant="destructive" icon-name="utility:delete" value={it.value.Id} onclick={handleRemoveMember}>
+                                    </lightning-button>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <template if:true={flag}>
+                <div class="slds-m-around_medium">
+                    <div class="slds-text-align_center">
+                        <lightning-button label="Create" variant="brand" onclick={handleCreateTeamMember}></lightning-button>
+                    </div>
+                </div>
+            </template>
+    </lightning-card>
+     <!-- </div> -->
+     <!-- <div class="slds-col slds-size_1-of-2"> -->
+        <!-- <c-for-displaying-team-members flag-value={combineObject}></c-for-displaying-team-members> -->
+     <!-- </div> -->
+   <!-- </div> -->
+</template>

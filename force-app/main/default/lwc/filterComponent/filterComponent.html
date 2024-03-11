@@ -1,0 +1,17 @@
+<template>
+    <div class="slds-grid slds-gutters">
+        <lightning-combobox
+            name="progress"
+            label="Roles"
+            value={value}
+            placeholder="Select Role"
+            options={options}
+            onchange={handleChange} 
+            class="slds-p-vertical_x-small slds-p-horizontal_medium">
+        </lightning-combobox>
+        <lightning-input type="number" label="Enter Experience"  class="slds-p-vertical_x-small slds-p-horizontal_medium" value={Experience} onchange={handleExperience}></lightning-input>
+        <lightning-input type="text" label="Enter Name" class="slds-p-vertical_x-small slds-p-horizontal_medium" value={name} onchange={handleName}></lightning-input>
+        <lightning-button variant="neutral" label="Apply Filter" onclick={saveAll} class="slds-p-top_x-large"></lightning-button> 
+        <!-- <lightning-button variant="neutral" label="save" onclick={saveAll} class="slds-p-top_x-large"></lightning-button> -->
+    </div>
+</template>
