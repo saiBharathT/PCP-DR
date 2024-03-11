@@ -216,41 +216,7 @@ export default class AssignmentCreation extends LightningElement {
         this.assignments = [...this.assignments];
     }
 
-    // handleDelete(event) {
-    //     const rowId = event.target.dataset.id;
-    //     console.log(rowId);
-    //     const index = this.findIndexById(rowId);
-    //     console.log(index);
-
-    //     const assignmentToDelete = this.assignments[index];
-
-    // //     // Make a call to Apex to delete the assignment and its subassignments
-    // //     deleteAssignmentAndSubassignment({ assignmentId: assignmentToDelete.Id })
-    // //         .then(() => {
-    // //             // Successfully deleted
-    // //             const event = new ShowToastEvent({
-    // //                 title: 'Success',
-    // //                 message: 'Assignment and its subassignments deleted successfully!',
-    // //                 variant: 'success',
-    // //             });
-    // //             this.dispatchEvent(event);
-
-    // //             // Remove the assignment from the local array
-    // //             this.assignments.splice(index, 1);
-    // //             this.assignments = [...this.assignments];
-    // //         })
-    // //         .catch(error => {
-    // //             console.error('Error deleting assignment and subassignments:', error);
-
-    // //             // Show error message
-    // //             const event = new ShowToastEvent({
-    // //                 title: 'Error',
-    // //                 message: 'Error deleting assignment and subassignments',
-    // //                 variant: 'error',
-    // //             });
-    // //             this.dispatchEvent(event);
-    // //         });
-    // // }
+   
 
 
     handleDeleteSubassignment(event) {
@@ -271,44 +237,7 @@ export default class AssignmentCreation extends LightningElement {
     }
 
 
-    // handleDeleteSubassignment(event) {
-    //     const rowId = event.target.dataset.id;
-    //     const parentId = event.target.dataset.parentId;
-    //     const parentIndex = this.findIndexById(parentId);
-    //     const subIndex = this.findIndexById(rowId, parentIndex);
-
-    //     if (parentIndex !== -1 && subIndex !== -1) {
-    //         const parentAssignment = this.assignments[parentIndex];
-    //         const subassignmentToDelete = parentAssignment.subassignments[subIndex];
-
-    //         // Make a call to Apex to delete the subassignment
-    //         deleteAssignmentAndSubassignment({ assignmentId: parentId, subassignmentIds: [subassignmentToDelete.Id] })
-    //             .then(() => {
-    //                 // Successfully deleted
-    //                 const event = new ShowToastEvent({
-    //                     title: 'Success',
-    //                     message: 'Subassignment deleted successfully!',
-    //                     variant: 'success',
-    //                 });
-    //                 this.dispatchEvent(event);
-
-    //                 // Remove the subassignment from the local array
-    //                 parentAssignment.subassignments.splice(subIndex, 1);
-    //                 this.assignments = [...this.assignments];
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error deleting subassignment:', error);
-
-    //                 // Show error message
-    //                 const event = new ShowToastEvent({
-    //                     title: 'Error',
-    //                     message: 'Error deleting subassignment',
-    //                     variant: 'error',
-    //                 });
-    //                 this.dispatchEvent(event);
-    //             });
-    //     }
-    // }
+  
 
 
 
@@ -524,32 +453,6 @@ export default class AssignmentCreation extends LightningElement {
 
 
 
-//.filter(subassignment => subassignment.parentId === assignment.Id)
-
-
-
-
-
-
-
-
-// updateFieldOptions(rowId, fieldName, options) {
-//     const index = this.findIndexById(rowId);
-//     console.log('Inside updateFieldOptions');
-//     console.log('Row Id:', rowId);
-//     console.log('Field Name:', fieldName);
-//     console.log('Options:', JSON.stringify(options));
-//     console.log('inside updateFieldOptions',JSON.stringify(options));
-//     if (fieldName in this.assignments[index]) {
-//         this.assignments[index][Assigned_To__cOptions] = options;
-//         console.log( 'hvctdf',JSON.stringify(this.assignments[index][Assigned_To__cOptions]));
-//     } else {
-//         const subIndex = this.findIndexById(rowId, index);
-//         if (subIndex !== -1 && fieldName in this.assignments[index].subassignments[subIndex]) {
-//             this.assignments[index].subassignments[subIndex][Assigned_To__cOptions] = options;
-//         }
-//     }
-// }
 
 
 
@@ -566,28 +469,3 @@ export default class AssignmentCreation extends LightningElement {
 
 
 
-
-// THIS CODE IS FOR HANDLING THE VALUES IN DROPDOWNCHANGE OF STATUS AND PRIORITY
-
-// handleDropdownChange(rowId, parentId, field, value) {
-    //     if (field === 'Status__c') {
-    //         const newPicklistValues = this.statusOptions; // Use the statusOptions obtained via wire
-    //         this.updateFieldAndPicklistValues(rowId, field, value, newPicklistValues);
-    //     } else if (field === 'Priority__c') {
-    //         const newPicklistValues = this.priorityOptions; // Use the priorityOptions obtained via wire
-    //         this.updateFieldAndPicklistValues(rowId, field, value, newPicklistValues);
-    //     }
-    // }
-    
-    // updateFieldAndPicklistValues(rowId, field, value, picklistValues) {
-    //     this.assignments = this.assignments.map(assignment => {
-    //         if (assignment.Id === rowId) {
-    //             return {
-    //                 ...assignment,
-    //                 [field]: value,
-    //                 [`${field}PicklistValues`]: picklistValues
-    //             };
-    //         }
-    //         return assignment;
-    //     });
-    // }
